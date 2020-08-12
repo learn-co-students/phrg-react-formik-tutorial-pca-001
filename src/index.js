@@ -50,6 +50,7 @@ const SignupForm = () => {
       name="firstName"
       type="text"
       onChange={formik.handleChange}
+      onBlur={formik.handleChange}
       value={formik.values.firstName}
       />
         <label htmlFor="lastName">Last Name</label>
@@ -58,6 +59,7 @@ const SignupForm = () => {
         name="lastName"
         type="text"
         onChange={formik.handleChange}
+        onBlur={formik.handleChange}
         value={formik.values.lastName}
       />
       <label htmlFor="email">Email Address</label>
@@ -66,6 +68,7 @@ const SignupForm = () => {
         name="email"
         type="email"
         onChange={formik.handleChange}
+        onBlur={formik.handleChange}
         value={formik.values.email}
       />
       <button type="submit">Submit</button>
