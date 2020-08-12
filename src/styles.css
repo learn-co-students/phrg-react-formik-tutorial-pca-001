@@ -180,6 +180,9 @@ label {
 }
 
 input[type="email"],
+input[type="password"],
+input[type="firstName"],
+input[type="lastName"],
 input[type="text"],
 input[type="number"] {
   padding: 0.65rem 0.5rem;
@@ -195,6 +198,9 @@ input[type="number"] {
 
 @media (prefers-color-scheme: dark) {
   input[type="email"],
+  input[type="password"],
+  input[type="firstName"],
+  input[type="lastName"],
   input[type="text"],
   input[type="number"] {
     background-color: var(--gray-800);
@@ -203,6 +209,9 @@ input[type="number"] {
   }
 
   input[type="email"]::placeholder,
+  input[type="password"]::placeholder,
+  input[type="firstName"]::placeholder,
+  input[type="lastName"]::placeholder,
   input[type="text"]::placeholder,
   input[type="number"]::placeholder,
   select,
@@ -212,6 +221,9 @@ input[type="number"] {
 }
 
 input[type="email"],
+input[type="firstName"],
+input[type="lastName"],
+input[type="password"],
 input[type="text"],
 input[type="number"],
 textarea,
@@ -630,6 +642,9 @@ button[type="reset"]:hover {
 
 /* custom */
 input[type="email"],
+input[type="firstName"],
+input[type="lastName"],
+input[type="password"],
 input[type="text"],
 input[type="number"],
 textarea,
