@@ -1,0 +1,103 @@
+// using yup for validations:
+// interminal:
+// npm install yup --save
+// yarn add yup
+
+import React from 'react';
+import ReactDOM from "react-dom";
+import { Formik, Field, Form, ErrorMessage} from 'formik';
+// swapped out useFormik() hook and replaced it with the <Formik> component
+import "./styles.css";
+import * as Yup from 'yup';
+
+const SignupForm = () => {
+  return (
+    <Formik
+      initialValues= {
+        {firstName: '',
+        lastName: '',
+        email: ''}
+      }
+      validationSchema= {Yup.object({
+        firstName: Yup.string()
+          .max(15, 'Must be 15 characters or less')
+          .required('Required'),
+        lastName: Yup.string()
+          .max(20, 'Must be 20 characters or less')
+          .required('Required'),
+        email: Yup.string()
+          .email('Invalid email address')
+          .required('Required'),
+      })}
+      onSubmit= {( values, { setSubmitting }) => {
+        setTimeout(() => {
+          alert(JSON.stringify(values, null, 2));
+          setSubmitting(false);
+        }, 400);
+      }}
+    >
+      {/* {formik => (
+        <form onSubmit={formik.handleSubmit}>
+          <label htmlFor="firstName">First Name</label>
+          <input
+            id="firstName"
+            name="firstName"
+            type="text"
+            // onChange={formik.handleChange}
+            // onBlur={formik.handleBlur}
+            // value={formik.values.firstName}
+            // can replace above with helper method .getFieldProps
+            {...formik.getFieldProps('firstName')}
+          />
+          {formik.touched.firstName && formik.errors.firstName ? <div>{formik.errors.firstName}</div> : null}
+          <label htmlFor="lastName">Last Name</label>
+          <input
+            id="lastName"
+            name="lastName"
+            type="text"
+            // onChange={formik.handleChange}
+            // onBlur={formik.handleBlur}
+            // value={formik.values.lastName}
+            {...formik.getFieldProps('lastName')}
+          />
+          {formik.touched.lastName && formik.errors.lastName ? <div>{formik.errors.lastName}</div> : null}
+          <label htmlFor="email">Email Address</label>
+          <input
+            id="email"
+            name="email"
+            type="email"
+            // onChange={formik.handleChange}
+            // onBlur={formik.handleBlur}
+            // value={formik.values.email}
+            {...formik.getFieldProps('email')}
+          />
+          {formik.touched.email && formik.errors.email ? <div>{formik.errors.email}</div> : null}
+          <button type="submit">Submit</button>
+        </form>
+      )} */}
+      {/* <Formik> calls useFormik() internally, Thus, our form works the same as before, except now we can use new components to express ourselves in a more concise manner */}
+      <Form>
+        <label htmlFor="firstName">First Name</label>
+        <Field name="firstName" type="text" />
+        {/* <Field> component by default will render an <input> component that given a name prop will implicitly grab the respective onChange, onBlur, value props and pass them to the element as well as any props you pass to it */}
+        <ErrorMessage name="firstName" />
+        <label htmlFor="lastName">Last Name</label>
+        <Field name="lastName" type="text" />
+        <ErrorMessage name="lastName" />
+        <label htmlFor="email">Email Address</label>
+        <Field name="email" type="email" />
+        <ErrorMessage name="email" />
+        <button type="submit">Submit</button>
+      </Form>
+    </Formik>
+  );
+};
+
+function App() {
+  return <SignupForm />;
+}
+
+const rootElement = document.getElementById("root");
+ReactDOM.render(<App />, rootElement);
+
+
