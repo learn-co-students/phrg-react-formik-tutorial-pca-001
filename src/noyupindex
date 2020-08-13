@@ -1,0 +1,97 @@
+import React from "react";
+import ReactDOM from "react-dom";
+import { useFormik } from "formik";
+import "./styles.css";
+
+// A custom validation function. This must return an object
+// which keys are symmetrical to our values/initialValues
+const validate = values => {
+  const errors = {};
+  if (!values.firstName) {
+    errors.firstName = 'Required';
+  } else if (values.firstName.length > 15) {
+    errors.firstName = 'Must be 15 characters or less';
+  }
+
+  if (!values.lastName) {
+    errors.lastName = 'Required';
+  } else if (values.lastName.length > 20) {
+    errors.lastName = 'Must be 20 characters or less';
+  }
+
+  if (!values.email) {
+    errors.email = 'Required';
+  } else if (!/^[A-Z0-9._%+-]+@[A-Z0-9.-]+\.[A-Z]{2,4}$/i.test(values.email)) {
+    errors.email = 'Invalid email address';
+  }
+
+  return errors;
+};
+
+const SignupForm = () => {
+  // Pass the useFormik() hook initial form values and a submit function that will
+  // be called when the form is submitted
+  const formik = useFormik({
+    initialValues: {
+      firstName: '',
+      lastNAme: '',
+      email: '',
+    },
+  // Notice that we have to initialize ALL of fields with values. These
+  // could come from props, but since we don't want to prefill this form,
+  // we just use an empty string. If you don't do this, React will yell
+  // at you.
+    validate,
+    onSubmit: values => {
+      alert(JSON.stringify(values, null, 2));
+    },
+  });
+
+  return (
+    <form onSubmit={formik.handleSubmit}>
+      <label htmlFor="firstName">First Name</label>
+      <input
+        id="firstName"
+        name="firstName"
+        type="text"
+        onChange={formik.handleChange}
+        onBlur={formik.handleBlur}
+        // Formik can keep track of which fields have been visited. It stores this information in an object called touched that also mirrors the shape of values/initialValues, but each key can only be a boolean true/false.
+        // To take advantage of touched, we can pass formik.handleBlur to each input's onBlur prop. This function works similarly to formik.handleChange in that it uses the name attribute to figure out which field to update.
+        value={formik.values.firstName}
+      />
+      {formik.touched.firstName && formik.errors.firstName ? <div>{formik.errors.firstName}</div> : null}
+      <label htmlFor="lastName">Last Name</label>
+      <input
+        id="lastName"
+        name="lastName"
+        type="text"
+        onChange={formik.handleChange}
+        onBlur={formik.handleBlur}
+        value={formik.values.lastName}
+      />
+      {formik.touched.firstName && formik.errors.lastName ? <div>{formik.errors.lastName}</div> : null}
+      <label htmlFor="email">Email Address</label>
+      <input
+        id="email"
+        name="email"
+        type="email"
+        onChange={formik.handleChange}
+        onBlur={formik.handleBlur}
+        value={formik.values.email}
+      />
+      {formik.touched.firstName && formik.errors.email ? <div>{formik.errors.email}</div> : null}
+      {/* formik.errors is populated via the custom validation function.
+      By default, Formik will validate after each keystroke (change event), each input's blur event, as well as prior to submission.
+      It will only proceed with executing the onSubmit function we passed to useFormik() if there are no errors (i.e. if our validation function returned {}). */}
+      <button type="submit">Submit</button>
+    </form>
+  );
+};
+
+function App() {
+  return <SignupForm />;
+}
+
+const rootElement = document.getElementById("root");
+ReactDOM.render(<App />, rootElement);
